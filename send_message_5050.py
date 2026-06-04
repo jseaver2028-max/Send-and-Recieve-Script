@@ -9,8 +9,11 @@ def send_message(host: str, port: int, message: str) -> None:
 
 
 if __name__ == '__main__':
-    target_host = '192.168.1.11'#Changes the ip address you are sending stuff to
-    target_port = 5050#Changes the port you are sending stuff to
-    message = 'Hello World'#Changes the message you are sending
+    target_host = input("Enter the target ip address")
+    target_port = 5050
+    message = input("Enter the message to send")
+
+    if not message.strip():
+        message = "Default message"
 
     send_message(target_host, target_port, message)
