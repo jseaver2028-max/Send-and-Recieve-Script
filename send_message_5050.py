@@ -17,3 +17,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     send_message(args.host, args.port, args.message)
+
+#python send_message_5050.py --host 192.168.1.11 --port 5050 --message "hello world"
