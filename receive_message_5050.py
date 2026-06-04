@@ -25,7 +25,7 @@ def receive_messages(host: str, port: int) -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Receive messages on port 5050')
-    parser.add_argument('--host', default='127.0.0.1', help='Listening host (default: 127.0.0.1)')
+    parser.add_argument('--host', default='0.0.0.0', help='Listening host (default: 0.0.0.0, all interfaces)')
     parser.add_argument('--port', type=int, default=5050, help='Listening port (default: 5050)')
     args = parser.parse_args()
 
