@@ -2,20 +2,31 @@ import socket
 import argparse
 
 
-def send_message(host: str, port: int, message: str) -> None:
+def receive_messages(host: str, port: int) -> None:
+    """Start a TCP server to receive and display messages."""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.connect((host, port))
-        sock.sendall(message.encode('utf-8'))
-        print(f"Sent to {host}:{port}: {message}")
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sock.bind((host, port))
+        sock.listen(1)
+        print(f"Listening on {host}:{port}...")
+        
+        try:
+            while True:
+                conn, addr = sock.accept()
+                with conn:
+                    print(f"\nConnection from {addr[0]}:{addr[1]}")
+                    data = conn.recv(1024)
+                    if data:
+                        message = data.decode('utf-8')
+                        print(f"Payload: {message}")
+        except KeyboardInterrupt:
+            print("\nServer stopped.")
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Send a message over TCP to port 5050')
-    parser.add_argument('--host', default='127.0.0.1', help='Target host (default: 127.0.0.1)')
-    parser.add_argument('--port', type=int, default=5050, help='Target port (default: 5050)')
-    parser.add_argument('message', help='Message to send')
+    parser = argparse.ArgumentParser(description='Receive messages on port 5050')
+    parser.add_argument('--host', default='0.0.0.0', help='Listening host (default: 0.0.0.0, all interfaces)')
+    parser.add_argument('--port', type=int, default=5050, help='Listening port (default: 5050)')
     args = parser.parse_args()
 
-    send_message(args.host, args.port, args.message)
-
-#python send_message_5050.py --host 192.168.1.11 --port 5050 --message "hello world"
+    receive_messages(args.host, args.port)
