@@ -3,9 +3,10 @@ import socket
 
 def send_message(host: str, port: int, message: str) -> None:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(('', 5050))
         sock.connect((host, port))
         sock.sendall(message.encode('utf-8'))
-        print(f"Sent to {host}:{port}: {message}")
+        print(f"Sent from source port 5050 to {host}:{port}: {message}")
 
 
 if __name__ == '__main__':
