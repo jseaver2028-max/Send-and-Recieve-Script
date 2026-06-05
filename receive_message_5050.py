@@ -14,7 +14,7 @@ def receive_messages(host: str, port: int) -> None:
             while True:
                 conn, addr = sock.accept()
                 with conn:
-                    print(f"\nConnection from {addr[0]}:{addr[1]}")
+                    print(f"\nConnection from {addr[0]} to port {port}")
                     data = conn.recv(1024)
                     if data:
                         message = data.decode('utf-8')
