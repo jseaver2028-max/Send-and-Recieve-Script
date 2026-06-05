@@ -9,11 +9,16 @@ def send_message(host: str, port: int, message: str) -> None:
 
 
 if __name__ == '__main__':
-    target_host = input("Enter the target ip address")
+    target_host = input("Enter the target ip address: ")
     target_port = 5050
-    message = input("Enter the message to send")
 
-    if not message.strip():
-        message = "Default message"
+    while True:
+        message = input("Enter the message to send (or QUIT to exit): ")
+        if message.strip().upper() == 'QUIT':
+            print('Exiting sender.')
+            break
 
-    send_message(target_host, target_port, message)
+        if not message.strip():
+            message = "Default message"
+
+        send_message(target_host, target_port, message)
